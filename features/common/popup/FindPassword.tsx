@@ -28,7 +28,7 @@ function FindPasswordPopup({ children }: Props) {
         try {
             await supabase.auth.resetPasswordForEmail(email, {
                 redirectTo:
-                    "https://next-board-gamma.vercel.app/password-setting",
+                    "https://next-board-vmdo.vercel.app/password-setting",
             });
             toast({
                 title: "비밀번호 초기화 이메일을 전송했습니다.",

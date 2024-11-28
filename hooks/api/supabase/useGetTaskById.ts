@@ -9,7 +9,6 @@ import { useEffect } from "react";
 function useGetTaskById(taskId: number) {
     const [task, setTask] = useAtom(taskAtom);
     const getTaskById = async () => {
-        console.log(task);
         try {
             const { data, status, error } = await supabase
                 .from("todos")

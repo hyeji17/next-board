@@ -1,16 +1,19 @@
 "use client";
 
-import { createClient } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
+import { supabase } from "@/lib/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import { useAtom, useAtomValue } from "jotai";
 import { tasksAtom, userAtom } from "@/stores/atoms";
 
 function useSearch() {
-    const supabase = createClient();
+    const router = useRouter();
     const user = useAtomValue(userAtom);
     const [, setTasks] = useAtom(tasksAtom);
+
     const search = async (searchTerm: string) => {
         if (!user) return;
+        if (searchTerm === "") router.push("/board");
         else {
             try {
                 const { data, status, error } = await supabase

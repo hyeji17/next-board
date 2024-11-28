@@ -12,17 +12,18 @@ import { Button, SearchBar } from "@/shared/ui";
 import { Task } from "@/types";
 
 function AsideSection() {
-    const router = useRouter();
     const { id } = useParams();
+    const router = useRouter();
     const { tasks, getTasks } = useGetTasks();
     const { search } = useSearch();
     /** 상태 값 */
     const user = useAtomValue(userAtom);
     const [searchTerm, setSearchTerm] = useState<string>("");
 
+    // getTasks는 컴포넌트 최초 렌더링 시 한번만 호출되어야 하므로 useEffect로 호출
     useEffect(() => {
-        getTasks();
-    }, [id, getTasks]);
+        getTasks(); // 컴포넌트가 마운트되면 한 번만 호출
+    }, [id]);
 
     /** Add New Page 버튼을 클릭하였을 때, TASK 생성 */
     const handleCreateTask = useCreateTask();
@@ -31,8 +32,17 @@ function AsideSection() {
     const handleSearch = async (
         event: React.KeyboardEvent<HTMLInputElement>
     ) => {
-        if (event.key === "Enter") search(searchTerm);
-        else return;
+        if (event.key === "Enter") {
+            // search만 호출하도록 변경, getTasks가 불필요하게 호출되지 않게 함
+            search(searchTerm);
+        }
+    };
+
+    // 검색어 상태 업데이트
+    const handleSearchTermChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+    ) => {
+        setSearchTerm(event.target.value);
     };
 
     return (
@@ -41,7 +51,7 @@ function AsideSection() {
                 {/* 검색창 UI */}
                 <SearchBar
                     placeholder="검색어를 입력하세요."
-                    onChange={(event) => setSearchTerm(event.target.value)}
+                    onChange={handleSearchTermChange}
                     onKeyDown={handleSearch}
                 />
                 {/* Add New Page 버튼 UI */}

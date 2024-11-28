@@ -2,8 +2,15 @@
 
 import { useParams } from "next/navigation";
 /** UI 컴포넌트 */
+import MarkdownEditor from "@uiw/react-markdown-editor";
 import { MarkdownEditorDialog } from "@/features";
-import { Button, Card, Checkbox, LabelDatePicker, Separator } from "@/shared/ui";
+import {
+    Button,
+    Card,
+    Checkbox,
+    LabelDatePicker,
+    Separator,
+} from "@/shared/ui";
 import { useDeleteBoard } from "@/hooks/api";
 import { ChevronUp } from "@/public/assets/icons";
 /** 타입 */
@@ -40,23 +47,42 @@ function CardBoard({ board }: Props) {
             <div className="w-full flex items-center justify-between">
                 {/* 캘린더 박스 */}
                 <div className="flex items-center gap-5">
-                    <LabelDatePicker label={"From"} isReadOnly={true} value={board.startDate} />
-                    <LabelDatePicker label={"To"} isReadOnly={true} value={board.endDate} />
+                    <LabelDatePicker
+                        label={"From"}
+                        isReadOnly={true}
+                        value={board.startDate}
+                    />
+                    <LabelDatePicker
+                        label={"To"}
+                        isReadOnly={true}
+                        value={board.endDate}
+                    />
                 </div>
                 {/* 버튼 박스 */}
                 <div className="flex items-center">
-                    <Button variant={"ghost"} className="font-normal text-[#6D6D6D]">
+                    <Button
+                        variant={"ghost"}
+                        className="font-normal text-[#6D6D6D]"
+                    >
                         Duplicate
                     </Button>
-                    <Button variant={"ghost"} className="font-normal text-rose-600 hover:text-rose-600 hover:bg-red-50" onClick={handleDeleteBoard}>
+                    <Button
+                        variant={"ghost"}
+                        className="font-normal text-rose-600 hover:text-rose-600 hover:bg-red-50"
+                        onClick={handleDeleteBoard}
+                    >
                         Delete
                     </Button>
                 </div>
             </div>
+            <MarkdownEditor className="w-full" value={board.content} />
             <Separator className="my-3" />
             {/* Add Contents 버튼 영역 */}
             <MarkdownEditorDialog board={board}>
-                <Button variant={"ghost"} className="font-normal text-[#6D6D6D]">
+                <Button
+                    variant={"ghost"}
+                    className="font-normal text-[#6D6D6D]"
+                >
                     {board.title ? "Update Contents" : "Add Contents"}
                 </Button>
             </MarkdownEditorDialog>
